@@ -1,0 +1,30 @@
+//>imports
+@use 'utils/colors'
+@use 'utils/font-sizes'
+//>mixins
+@mixin darkerbg($bg-color: colors.$bg-color) //>makes bg darker
+   background: darken($bg-color, 15%)
+//>styles
+*
+   margin: 0
+   padding: 0
+   box-sizing: border-box
+   height: 100%
+.app
+   font-size: font-sizes.$usual-font-size
+   background: colors.$bg-color
+   color: colors.$font-color
+   display: grid
+   grid-template: '.header.' 80px '.content.' 1fr '.footer.' 50px / 1fr minmax(auto, 1400px) 1fr
+
+   .header
+      grid-area: header
+      // @include darkerbg
+
+   .content
+      grid-area: content
+      // @include darkerbg
+
+   .footer
+      grid-area: footer
+      // @include darkerbg
