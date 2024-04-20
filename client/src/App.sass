@@ -2,8 +2,6 @@
 @use 'utils/colors'
 @use 'utils/font-sizes'
 //>mixins
-@mixin darkerbg($bg-color: colors.$bg-color) //>makes bg darker
-   background: darken($bg-color, 15%)
 //>styles
 *
    margin: 0
@@ -19,12 +17,7 @@
 
    .header
       grid-area: header
-      // @include darkerbg
-
    .content
       grid-area: content
-      // @include darkerbg
-
    .footer
       grid-area: footer
-      // @include darkerbg

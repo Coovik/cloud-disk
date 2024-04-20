@@ -1,11 +1,20 @@
 import './Registration.sass'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input } from "../../utils/input/Input"
 import { registration } from '../../actions/user'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export const Registration = props => {
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
+   const isAuth = useSelector(state => state.user.isAuth)
+   const navigate = useNavigate()
+   useEffect(() => {
+      if (isAuth) {
+         navigate('/')
+      }
+   }, [isAuth])
 
    return <div className='registration'>
       <div className='registration_header'>Регистрация</div>

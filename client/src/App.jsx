@@ -1,9 +1,9 @@
-import { Navbar } from "./components/navbar/Navbar"
-import './App.sass'
-import { Outlet } from "react-router-dom"
-import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Outlet } from "react-router-dom"
+import './App.sass'
 import { auth } from './actions/user'
+import { Navbar } from "./components/navbar/Navbar"
 
 export const App = props => {
    const dispatch = useDispatch()
@@ -18,6 +18,6 @@ export const App = props => {
       <div className="content">
          <Outlet />
       </div>
-      <div className="footer">owiejfoij</div>
+      <div className="footer">footer</div>
    </div>
 }

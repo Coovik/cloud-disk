@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './App'
 import { Provider } from 'react-redux'
-import { store } from './reducers'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { App } from './App'
+import { Disk } from './components/disk/Disk'
 import { Login } from './components/login/Login'
 import { Registration } from './components/registration/Registration'
+import { store } from './reducers'
 
 const router = createBrowserRouter([
    {
@@ -13,8 +14,12 @@ const router = createBrowserRouter([
       element: <App />,
       children: [
          {
+            path: '/',
+            element: <Disk />,
+         },
+         {
             path: 'login',
-            element: <Login />
+            element: <Login />,
          },
          {
             path: 'registration',
