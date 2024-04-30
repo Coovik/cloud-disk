@@ -4,10 +4,17 @@ import { getFiles } from '../../actions/file'
 import './Disk.sass'
 import { Popup } from './Popup'
 import { FileList } from './fileList/FileList'
+import { popFromStack, setCurrentDir } from '../../reducers/fileReducer'
+
 
 export const Disk = props => {
    const dispatch = useDispatch()
    const currentDir = useSelector(state => state.file.currentDir)
+   const stack = useSelector(state => state.file.stack)
+   const backClickHandler = () => {
+      dispatch(popFromStack())
+      dispatch(setCurrentDir(stack.at(-1)))
+   }
    const [popup, setPopup] = useState('none')
    useEffect(() => {
       dispatch(getFiles(currentDir))
@@ -15,7 +22,7 @@ export const Disk = props => {
    return <>
       <div className='disk'>
          <div className='disk_btns'>
-            <button className='disk_back'>Назад</button>
+            <button className='disk_back' disabled={stack.length == 0 && true} onClick={() => backClickHandler()} >Назад</button>
             <button className='disk_create' onClick={() => setPopup('flex')}>Создать папку</button>
          </div>
          <FileList />
