@@ -26,7 +26,6 @@ export const login = (email, password) => {
             })
          dispatch(setUser(res.data.user))
          localStorage.setItem('token', res.data.token)
-         console.log(res.data)
       } catch (e) {
          alert(e)
       }
@@ -41,8 +40,6 @@ export const auth = () => {
          dispatch(setUser(res.data.user))
          localStorage.setItem('token', res.data.token)
       } catch (e) {
-         // console.log(e.response.data.message)
-         // alert(e.response.data.message)
          localStorage.removeItem('token')
       }
    }
