@@ -30,3 +30,30 @@ export const createDir = (name, dirId) => {
       }
    }
 }
+export const uploadFile = (file, dirId) => {
+   return async dispatch => {
+      try {
+         const formData = new FormData()
+         formData.append('file', file)
+         if (dirId) {
+            formData.append('parent', dirId)
+         }
+         const res = await instance.post('/upload', formData, {
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+            //TODO
+            // onUploadProgress: progressEvent => {
+            //    const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length')
+            //    console.log('total ', totalLength)
+            //    if (totalLength) {
+            //       let progress = Math.round(progressEvent.loaded * 100 / totalLength)
+            //       console.log(progress)
+            //    }
+            // }
+         })
+         dispatch(addFile(res.data))
+      } catch (e) {
+         alert(e.response.data.message)
+
+      }
+   }
+}

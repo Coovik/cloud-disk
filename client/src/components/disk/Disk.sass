@@ -7,9 +7,21 @@
    &_btns
       display: flex
       height: 30px
+      .btn
+         cursor: pointer
+         margin-left: 10px
+      .btn:first-child
+         margin-left: 0
    &_back
    &_create
-      margin-left: 10px
+   &_upload
+   &_upload-input
+      display: none
+   &_upload-label
+      display: block
+      padding: 5px
+      border: 2px solid colors.$font-color
+
 .popup
    position: absolute
    left: 0
