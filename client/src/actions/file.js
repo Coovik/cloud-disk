@@ -56,3 +56,18 @@ export const uploadFile = (file, dirId) => {
       }
    }
 }
+export const downloadFile = async (file) => {
+   const res = await fetch('http://localhost:4000/api/files/download?id=' + file._id, {
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+   })
+   if (res.status === 200) {
+      const blob = await res.blob()
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+      link.download = file.name
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+   }
+}

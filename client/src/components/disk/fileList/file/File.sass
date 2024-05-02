@@ -7,7 +7,7 @@
    grid-template: 1fr/ 1fr 4fr repeat(4,1fr)
    align-items: center
    justify-items: center
-   cursor: pointer
+   // cursor: pointer
    & > div
       height: font-sizes.$usual-font-size
    &_img
@@ -15,6 +15,15 @@
    &_name
       grid-column-start: 2
       justify-self: start
+   &_download,&_delete
+      width: 24px
+      cursor: pointer
+      display: none
+   &:hover>&_download,&:hover>&_delete
+      display: block
+   &_download
+      justify-self: end
+   &_delete
    &_date
       grid-column-start: 5
    &_size
