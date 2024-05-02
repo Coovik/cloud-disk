@@ -13,7 +13,7 @@ export const getFiles = dirId => {
          })
          dispatch(setFiles(res.data))
       } catch (e) {
-         alert(e.response.data.message)
+         // alert(e.response.data.message)
       }
    }
 }
@@ -40,15 +40,14 @@ export const uploadFile = (file, dirId) => {
          }
          const res = await instance.post('/upload', formData, {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-            //TODO
-            // onUploadProgress: progressEvent => {
-            //    const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length')
-            //    console.log('total ', totalLength)
-            //    if (totalLength) {
-            //       let progress = Math.round(progressEvent.loaded * 100 / totalLength)
-            //       console.log(progress)
-            //    }
-            // }
+            onUploadProgress: progressEvent => {
+               const totalLength = progressEvent.event.lengthComputable ? progressEvent.total : progressEvent.event.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length')
+               console.log('total ', totalLength)
+               if (totalLength) {
+                  let progress = Math.round((progressEvent.loaded * 100) / totalLength)
+                  console.log(progress)
+               }
+            }
          })
          dispatch(addFile(res.data))
       } catch (e) {
