@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { addFile, setFiles } from '../reducers/fileReducer'
+import { addFile, deleteFileActioin, setFiles } from '../reducers/fileReducer'
 
 const instance = axios.create({
    baseURL: 'http://localhost:4000/api/files',
@@ -69,5 +69,18 @@ export const downloadFile = async (file) => {
       document.body.appendChild(link)
       link.click()
       link.remove()
+   }
+}
+export const deleteFile = (file) => {
+   return async dispatch => {
+      try {
+         const res = await instance.delete('?id=' + file._id, {
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+         })
+         dispatch(deleteFileActioin(file._id))
+         alert(res.data.message)
+      } catch (e) {
+         alert(e.response.data.message)
+      }
    }
 }

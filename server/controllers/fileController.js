@@ -40,9 +40,6 @@ class fileController {
          const file = req.files.file
          const parent = await File.findOne({ user: req.user.id, _id: req.body.parent })
          const user = await User.findOne({ _id: req.user.id })
-         console.log(file)
-         console.log(parent)
-         console.log(user)
          if (user.usedSpace + file.size > user.diskSpace) {
             return res.status(400).json({ message: 'There is no space on the disk' })
          }
@@ -59,11 +56,15 @@ class fileController {
          file.mv(filePath)
 
          const type = file.name.split('.').pop()
+         let dbFilePath = file.name
+         if (parent) {
+            dbFilePath = `${parent.path}\\${file.name}`
+         }
          const dbFile = new File({
             name: file.name,
             type,
             size: file.size,
-            path: parent?.path,
+            path: dbFilePath,
             parent: parent?._id,
             user: user._id
          })
@@ -78,13 +79,27 @@ class fileController {
    async downloadFile(req, res) {
       try {
          const file = await File.findOne({ _id: req.query.id, user: req.user.id })
-         const filePath = path.join(`${__dirname}\\..\\files\\${req.user.id}\\${file.path}\\${file.name}`)
+         const filePath = path.join(`${__dirname}\\..\\files\\${req.user.id}\\${file.path}`)
          if (fs.existsSync(filePath)) {
             return res.download(filePath, file.name)
          }
          return res.status(400).json({ message: 'Download error' })
       } catch (e) {
          return res.status(500).json({ message: 'Download error' })
+      }
+   }
+   async deleteFile(req, res) {
+      try {
+         const file = await File.findOne({ _id: req.query.id, user: req.user.id })
+         if (!file) {
+            return res.status(400).json({ message: 'File not found' })
+         }
+         fileService.deleteFile(file)
+         await file.deleteOne()
+         return res.json({ message: 'File was deleted' })
+      } catch (e) {
+         console.log(e)
+         return res.status(400).json({ message: 'Dir is not empty' })
       }
    }
 }

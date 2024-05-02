@@ -5,7 +5,7 @@ import downloadIcon from '../../../../assets/img/download-icon.svg'
 import deleteIcon from '../../../../assets/img/delete-icon.svg'
 import { pushToStack, setCurrentDir } from '../../../../reducers/fileReducer'
 import './File.sass'
-import { downloadFile } from '../../../../actions/file'
+import { deleteFile, downloadFile } from '../../../../actions/file'
 
 export const File = ({ file }) => {
    const dispatch = useDispatch()
@@ -20,12 +20,16 @@ export const File = ({ file }) => {
       e.stopPropagation()
       downloadFile(file)
    }
+   const deleteFileClickHandler = e => {
+      e.stopPropagation()
+      dispatch(deleteFile(file))
+   }
    return <>
       <div className='file' onClick={() => openDirHandler()} >
          <img src={file.type === 'dir' ? folderIcon : fileIcon} alt='' className='file_img' />
          <div className='file_name'>{file.name}</div>
          {file.type !== 'dir' && <img className='file_download' src={downloadIcon} onClick={downloadClickHandler} />}
-         {file.type !== 'dir' && <img className='file_delete ' src={deleteIcon} />}
+         <img className='file_delete ' src={deleteIcon} onClick={deleteFileClickHandler} />
          <div className='file_date'>{file.date.slice(0, 10)}</div>
          <div className='file_size'>{file.size}</div>
       </div>
