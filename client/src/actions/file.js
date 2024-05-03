@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { addFile, deleteFileActioin, setFiles } from '../reducers/fileReducer'
+import { addUploadFile, changeUploadFile, showUploader } from '../reducers/uploadReducer'
 
 const instance = axios.create({
    baseURL: 'http://localhost:4000/api/files',
@@ -38,14 +39,17 @@ export const uploadFile = (file, dirId) => {
          if (dirId) {
             formData.append('parent', dirId)
          }
+         const uploadFile = { name: file.name, progress: 0, id: Date.now() }
+         dispatch(showUploader())
+         dispatch(addUploadFile(uploadFile))
          const res = await instance.post('/upload', formData, {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
             onUploadProgress: progressEvent => {
                const totalLength = progressEvent.event.lengthComputable ? progressEvent.total : progressEvent.event.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length')
                console.log('total ', totalLength)
                if (totalLength) {
-                  let progress = Math.round((progressEvent.loaded * 100) / totalLength)
-                  console.log(progress)
+                  uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
+                  dispatch(changeUploadFile(uploadFile))
                }
             }
          })

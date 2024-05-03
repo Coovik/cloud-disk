@@ -5,6 +5,7 @@ import './Disk.sass'
 import { Popup } from './Popup'
 import { FileList } from './fileList/FileList'
 import { popFromStack, setCurrentDir } from '../../reducers/fileReducer'
+import { Uploader } from './uploader/Uploader'
 
 
 export const Disk = props => {
@@ -51,7 +52,7 @@ export const Disk = props => {
       <>
          <div className='disk' onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler} >
             <div className='disk_btns'>
-               <button className='disk_back btn' disabled={stack.length == 0 && true} onClick={() => backClickHandler()} >Назад</button>
+               <button className='disk_back btn' disabled={stack.length === 0 && true} onClick={() => backClickHandler()} >Назад</button>
                <button className='disk_create btn' onClick={() => setPopup('flex')}>Создать папку</button>
                <div className='disk_upload btn'>
                   <label htmlFor='disk_upload-input' className='disk_upload-label btn'>Загрузить файл</label>
@@ -61,6 +62,7 @@ export const Disk = props => {
             <FileList />
          </div>
          <Popup popup={popup} setPopup={setPopup} />
+         <Uploader />
       </>
       :
       <div className='drop-area' onDrop={dorpHandler} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler} >Перенесите файлы в эту область</div>
