@@ -3,6 +3,7 @@ import fileIcon from '../../../../assets/img/file-icon.svg'
 import folderIcon from '../../../../assets/img/folder-icon.svg'
 import downloadIcon from '../../../../assets/img/download-icon.svg'
 import deleteIcon from '../../../../assets/img/delete-icon.svg'
+import { formatSize } from '../../../../utils/sizeFormat'
 import { pushToStack, setCurrentDir } from '../../../../reducers/fileReducer'
 import './File.sass'
 import { deleteFile, downloadFile } from '../../../../actions/file'
@@ -31,7 +32,7 @@ export const File = ({ file }) => {
          {file.type !== 'dir' && <img className='file_download' src={downloadIcon} onClick={downloadClickHandler} />}
          <img className='file_delete ' src={deleteIcon} onClick={deleteFileClickHandler} />
          <div className='file_date'>{file.date.slice(0, 10)}</div>
-         <div className='file_size'>{file.size}</div>
+         <div className='file_size'>{formatSize(file.size)}</div>
       </div>
    </>
 }
