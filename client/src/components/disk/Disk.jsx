@@ -25,10 +25,13 @@ export const Disk = props => {
 
    const [popup, setPopup] = useState('none')
    const [dragEnter, setDragEnter] = useState(false)
+   const [sort, setSort] = useState('date')
+
+   const sortHandler = e => setSort(e.target.value)
 
    useEffect(() => {
-      dispatch(getFiles(currentDir))
-   }, [currentDir])
+      dispatch(getFiles(currentDir, sort))
+   }, [currentDir, sort])
 
    const dragEnterHandler = e => {
       e.preventDefault()
@@ -57,6 +60,14 @@ export const Disk = props => {
                <div className='disk_upload btn'>
                   <label htmlFor='disk_upload-input' className='disk_upload-label btn'>Загрузить файл</label>
                   <input multiple onChange={fileUploadHendler} type='file' className='disk_upload-input' id='disk_upload-input' />
+               </div>
+               <div className='btn'>
+                  <label htmlFor='sortSelector' >Сортировка:</label>
+                  <select value={sort} onChange={sortHandler} id='sortSelector' className='disk_sort btn'>
+                     <option value='name'>По имени</option>
+                     <option value='date'>По дате</option>
+                     <option value='size'>По размеру</option>
+                  </select>
                </div>
             </div>
             <FileList />

@@ -6,10 +6,21 @@ const instance = axios.create({
    baseURL: 'http://localhost:4000/api/files',
 })
 
-export const getFiles = dirId => {
+export const getFiles = (dirId, sort) => {
    return async dispatch => {
       try {
-         const res = await instance.get(dirId ? '?parent=' + dirId : '', {
+         // const res = await instance.get(dirId ? '?parent=' + dirId : '', {
+         let url = ''
+         if (dirId) {
+            url = '?parent=' + dirId
+         }
+         if (sort) {
+            url = '?sort=' + sort
+         }
+         if (dirId && sort) {
+            url = '?parent=' + dirId + '&sort=' + sort
+         }
+         const res = await instance.get(url, {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
          })
          dispatch(setFiles(res.data))
@@ -82,7 +93,7 @@ export const deleteFile = (file) => {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
          })
          dispatch(deleteFileActioin(file._id))
-         alert(res.data.message)
+         // alert(res.data.message)
       } catch (e) {
          alert(e.response.data.message)
       }
