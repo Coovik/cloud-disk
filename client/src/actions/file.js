@@ -9,7 +9,6 @@ const instance = axios.create({
 export const getFiles = (dirId, sort) => {
    return async dispatch => {
       try {
-         // const res = await instance.get(dirId ? '?parent=' + dirId : '', {
          let url = ''
          if (dirId) {
             url = '?parent=' + dirId

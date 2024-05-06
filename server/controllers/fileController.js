@@ -81,7 +81,7 @@ class fileController {
             type,
             size: file.size,
             path: dbFilePath,
-            parent: parent?._id,
+            parent: parent ? parent._id : null,
             user: user._id
          })
          await dbFile.save()
